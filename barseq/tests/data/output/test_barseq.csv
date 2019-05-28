@@ -1,0 +1,4 @@
+Gene,Barcode,Relative Frequency
+fake1::bar1,AGGGCCATTTATATACC,320
+fake2::bar2,AGGGCCAGGGATATACC,50
+fake3::bar3,ACCCCCATGTATATATC,95

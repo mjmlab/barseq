@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+"""
+Bin executable fro command line usage
+
+"""
+
+import sys
+import argparse
+import logging
+
+# Module import
+from barseq.main import main
+
+
+__author__ = "Emanuel Burgos"
+__email__ = "eburgos@wisc.edu"
+
+# Get logger
+logger = logging.getLogger("barseq")
+
+
+def parse_args(args):
+    if not args:
+        args = ["-h"]
+    # Parse arguments
+    parser = argparse.ArgumentParser('Python software for analyzing barseq data.')
+
+    # Add arguments, TODO: Add more arguments
+    parser.add_argument("-i", "--input", help="Directory where fastq/fastq.gz files are located.")
+
+    parser.add_argument("-b", "--barcodes", help="CSV file with barcodes for genes")
+
+    parser.add_argument("-e", "--experiment", help="Name for experiment")
+
+    # Process arguments given
+    args = parser.parse_args(args)
+    return args
+
+
+if __name__ == '__main__':
+    logger.info("Starting barseq software.")
+    main(parse_args(sys.argv[1:]))
