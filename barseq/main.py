@@ -61,6 +61,7 @@ def main(args) -> None:
     """
     Main pipeline for analyzing barseq data. Will be changed to be more modular, for now
     I just need the algorithm worked out.
+
     """
     logger.info("***** Starting barseq *****")
     # ---- SET UP SETTINGS ---- #
@@ -78,10 +79,9 @@ def main(args) -> None:
         with Cd(runner.sequences):
             count_barcodes(seq_file, runner.sample_dict[sample])
 
-
     # Write to output
-    logger.info(f"Writing results to {runner.experiment}")
-    write_output(runner.sample_dict, barcodes, runner.experiment)
+    logger.info(f"Writing results to {runner.path}")
+    write_output(runner.sample_dict, barcodes, runner)
 
     # Confirm completion of barseq
     logger.info("***** barseq is complete! *****")
@@ -90,7 +90,6 @@ def main(args) -> None:
 if __name__ == "__main__":
 
     """ # -------- START HERE --------  # """
-
     args = sys.argv[1:]
     main(args)
 

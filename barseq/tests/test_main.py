@@ -21,7 +21,8 @@ def test_barseq(temp_dir):
     output_dir = temp_dir(["output"])
 
     # Call main with test data
-    subprocess.call(["barseq", "-i", input_sequence, "-b", input_barcodes, "-e",
-                     "test.csv"])
-    # TODO: Finish Tests
-    return
+    subprocess.call(["barseq",
+                     "-i", input_sequence,
+                     "-b", input_barcodes,
+                     "-e", output_dir])
+

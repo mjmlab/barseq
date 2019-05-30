@@ -60,7 +60,7 @@ def read_barcodes(barcodes_file: str) -> dict:
     return barcode_dict
 
 
-def write_output(sample_dict: dict, barcode_dict: dict, output_name:str) -> None:
+def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     """
     Convert results file into a pandas dataframe with following
     structure.
@@ -86,7 +86,7 @@ def write_output(sample_dict: dict, barcode_dict: dict, output_name:str) -> None
         sample_df = pd.DataFrame.from_dict(counts, orient="index", columns=[sample])
         df = pd.concat([df, sample_df], axis=1)
     # Write to output
-    df.to_csv(f"{date}_{output_name}.csv")
+    df.to_csv(f"{runner.path}/{date}_{runner.experiment}.csv")
     return
 
 
@@ -113,11 +113,11 @@ def make_barseq_directories(runner) -> None:
     :return:
     """
     error_message =f"Barseq Error: {runner.experiment} directory already exists. Delete or rename {runner.experiment}, or provide new name for barseq run."
-    results_folder = Path(f"results/{runner.experiment}")
+    results_folder = Path("results", runner.experiment)
     if results_folder.is_dir():
         logger.error(error_message)
         sys.exit(1)
-    results_folder.mkdir()
+    results_folder.mkdir(parents=True)
     runner.path = results_folder
     return
 
