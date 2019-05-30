@@ -10,7 +10,7 @@ import argparse
 import logging
 
 # Module import
-from barseq.main import main
+from BarSeq.main import main
 
 
 __author__ = "Emanuel Burgos"
@@ -39,5 +39,4 @@ def parse_args(args):
 
 
 if __name__ == '__main__':
-    logger.info("Starting barseq software.")
     main(parse_args(sys.argv[1:]))

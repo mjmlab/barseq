@@ -7,9 +7,7 @@ Count barcode frequency in fastq/fasta files given by user.
 
 import screed
 import logging
-
-# Module import
-from .utils import sequence_distance
+from Levenshtein import distance
 
 __author__ = "Emanuel Burgos"
 __email__ = "eburgos@wisc.edu"
@@ -36,6 +34,8 @@ def count_barcodes(seq_file, barcode_dict) -> None:
 
     # Open sequence file
     with screed.open(seq_file) as reads:
+        i = 0
+        unmatched_reads = 0
         for read in reads:
             # Verbose
             seq = read.sequence
@@ -45,18 +45,27 @@ def count_barcodes(seq_file, barcode_dict) -> None:
                 barcode_index = seq.index(barcode)
                 split_sequence = read.sequence.split(barcode)
 
-                # TODO: Finish matching check with flanking sequences
                 left = split_sequence[0][barcode_index - 18: barcode_index]
                 right = split_sequence[1][0:18]
-
-                if LEFT_FLANK != left or RIGHT_FLANK != right:
-                    #print(sequence_distance(right, RIGHT_FLANK))
-                    pass
-                else:
+                # Calculate Levenshtein distance
+                left_distance = distance(left, LEFT_FLANK)
+                right_distance = distance(right, RIGHT_FLANK)
+                if max(left_distance, right_distance) > 1:
+                    unmatched_reads += 1
                     pass
                 barcode_dict[barcode]["count"] += 1
             # If did not found match, add to _other
             else:
-                # TODO: Logger warning
+                # Try both positions of index, 86 and 87
+                index_86 = seq[86:104]
+                index_87 = seq[87:105]
+
+                candidate_barcodes_86 = {[distance(bar, index_86) for bar in barcode_ls if distance(bar, index_86) < 5] }
+                candidate_barcodes_87 = [distance(bar, index_87) for bar in barcode_ls if distance(bar, index_87) < 5]
+
+                print(max(candidate_barcodes_87[1], candidate_barcodes_86[1]))
+
                 barcode_dict["_other"]["count"] += 1
+            i += 1
+    logger.info(f"Unmatched reads: {unmatched_reads} for {seq_file}")
     return
