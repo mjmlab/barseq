@@ -63,21 +63,26 @@ def main(args) -> None:
     I just need the algorithm worked out.
 
     """
+    # Add file handler
+    logger.addHandler( logging.)
     logger.info("***** Starting barseq *****")
     # ---- SET UP SETTINGS ---- #
     runner = Run(args)
     make_barseq_directories(runner)
     # Read in barcode
-    logger.info("Reading in barcodes from file")
+    logger.info(f"Reading in barcodes from {runner.barcodes}")
     barcodes = read_barcodes(runner.barcodes)
     # Process each sequencing file
     for seq_file in os.listdir(runner.sequences):
-        sample = format_filename(seq_file)
-        logger.info(f"Counting Barcodes in {sample}")
-        runner.sample_dict[sample] = deepcopy(barcodes)
+        if not seq_file.endswith(".DS_Store"):
+            sample = format_filename(seq_file)
+            logger.info(f"Counting Barcodes in {sample}")
+            runner.sample_dict[sample] = deepcopy(barcodes)
+            # Change cwd
+            with Cd(runner.sequences):
+                count_barcodes(seq_file, runner.sample_dict[sample])
 
-        with Cd(runner.sequences):
-            count_barcodes(seq_file, runner.sample_dict[sample])
+    # TODO: Add basic analysis
 
     # Write to output
     logger.info(f"Writing results to {runner.path}")

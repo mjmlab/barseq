@@ -7,7 +7,6 @@ Script that provides helper functions for package.
 
 import csv
 import pandas as pd
-import datetime
 import re
 import logging
 import sys
@@ -75,10 +74,8 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     |   Gene 1   | ATCGCGT |     500     |     10      | ... |
 
     """
-    # Get current date
-    date = datetime.datetime.now().date()
     # Get gene index
-    genes = {barcode_dict[bar]["gene"]:bar for bar in barcode_dict}
+    genes = {barcode_dict[bar]["gene"]: bar for bar in barcode_dict}
     df = pd.DataFrame.from_dict(genes, orient="index", columns=["Barcode"])
 
     for sample in sample_dict:
@@ -86,7 +83,7 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
         sample_df = pd.DataFrame.from_dict(counts, orient="index", columns=[sample])
         df = pd.concat([df, sample_df], axis=1)
     # Write to output
-    df.to_csv(f"{runner.path}/{date}_{runner.experiment}.csv")
+    df.to_csv(f"{runner.path}/barcode_counts_table.csv")
     return
 
 

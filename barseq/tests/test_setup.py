@@ -27,17 +27,14 @@ def temp_dir(tmp_path_factory: Path, request):
     # Create temporary directory
     tmpdir = tmp_path_factory.mktemp("test")
     # Copy test data into temp directory
-    tmpdir = shutil.copytree("BarSeq/tests/data", tmpdir.joinpath("data"))
+    shutil.copytree("tests/data", tmpdir.joinpath("data"))
     def get_tmp_path(filename=[]) -> str:
         """
         Getter for file path in tmpdir
         :param filename: filename as string
         :return new_path: path for file
         """
-        new_path = tmpdir.joinpath(*filename)
-        if not isinstance(filename, str):
-            return str(new_path)
-        return new_path
+        return tmpdir.joinpath(*filename)
 
     def tear_down():
         """

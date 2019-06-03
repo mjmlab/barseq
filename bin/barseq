@@ -10,7 +10,7 @@ import argparse
 import logging
 
 # Module import
-from BarSeq.main import main
+from barseq.main import main
 
 
 __author__ = "Emanuel Burgos"
@@ -26,7 +26,6 @@ def parse_args(args):
     # Parse arguments
     parser = argparse.ArgumentParser('Python software for analyzing barseq data.')
 
-    # Add arguments, TODO: Add more arguments
     parser.add_argument("-i", "--input", help="Directory where fastq/fastq.gz files are located.")
 
     parser.add_argument("-b", "--barcodes", help="CSV file with barcodes for genes")

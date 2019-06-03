@@ -27,33 +27,34 @@ def count_barcodes(seq_file, barcode_dict) -> None:
     :return:
     """
     _other_reads = list()
-    # Create regex patterns
+    # Compile regex patterns
     flank_regex = re.compile("(GCTCATGCACTTGATTCC){e<=1}([ATGC]{18})(GACTTGACCTGGATGTCT){e<=1}")
     barcode_regex = dict()
-    for b in barcode_dict.keys():
-        pattern_barcode = "(%s){e<=1}" % b
-        b_regex = re.compile(pattern_barcode)
-        barcode_regex[pattern_barcode] = (b, b_regex)
+    for b in barcode_dict:
+        barcode_regex[b] = re.compile("(%s){e<=1}" % b)
     # Open sequence file
     with screed.open(seq_file) as reads:
+        n_reads_match = 0
         for read in reads:
-            # Check with each regex
-            barcode_found = False
-            for regex_set in barcode_regex.values():
-                bar_re_object = regex_set[1]
-                m = re.search(bar_re_object, read.sequence)
-                m_flank = re.search(flank_regex, read.sequence)
-                # Check if match found
-                if m and m_flank:
-                    # Grab barcode by using regex match string
-                    barcode = barcode_regex[bar_re_object.pattern][0]
-                    barcode_dict[barcode]["count"] += 1
-                    barcode_found = True
-                    break
-            # Add to _others if match was not found.
-            if not barcode_found:
+            try:
+                putative_barcode = re.search(flank_regex, read.sequence)[2]
+                for known_barcode in barcode_regex:
+                    if re.search(barcode_regex[known_barcode], putative_barcode):
+                        barcode_dict[known_barcode]["count"] += 1
+                        # Increment # of matched reads
+                        n_reads_match += 1
+                        break
+                # Putative barcode present, does not match known barcodes
+                else:
+                    barcode_dict["_other"]["count"] += 1
+                    _other_reads.append(read)
+            # No putative barcode present
+            except TypeError:
                 barcode_dict["_other"]["count"] += 1
                 _other_reads.append(read)
 
+    logger.info(f"For {seq_file}, {n_reads_match} of "
+                f"{sum([ x['count'] for x in barcode_dict.values()])} matched known barcodes.")
     logger.info(f"Reads without barcode match: {barcode_dict['_other']['count']} for {seq_file}")
+
     return
