@@ -41,10 +41,10 @@ class Run:
         self.experiment = args.experiment
         self.sequences = args.input
         self.barcodes = args.barcodes
-        #self.barseq_sample_collection = list()
+        # self.barseq_sample_collection = list()
         self.sample_dict = dict()
-        self.path = f"results/{self.experiment}"
-
+        self.path = f"results/{self.experiment}/"
+        self.log = f"{self.path}log.txt"
 
 
 class SampleRecord:
@@ -63,12 +63,16 @@ def main(args) -> None:
     I just need the algorithm worked out.
 
     """
-    # Add file handler
-    logger.addHandler( logging.)
-    logger.info("***** Starting barseq *****")
     # ---- SET UP SETTINGS ---- #
     runner = Run(args)
     make_barseq_directories(runner)
+    # Add file handler
+    fh = logging.FileHandler(runner.log, mode="w")
+    fh.setFormatter(logging.Formatter(
+        "%(asctime)s - %(levelname)s - %(module)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M"))
+    logger.addHandler(fh)
+    logger.info("***** Starting barseq *****")
     # Read in barcode
     logger.info(f"Reading in barcodes from {runner.barcodes}")
     barcodes = read_barcodes(runner.barcodes)

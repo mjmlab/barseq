@@ -13,7 +13,7 @@ pip install git+https://github.com/mjmlab/barseq.git@master
 ### Usage
 
 ```bash
-barseq -i <directory sequences> -b <barcode file> -e <experiment name>
+barseq -i <directory of sequencing reads> -b <barcode file> -e <experiment name>
 ```
 
 `-i` / `--input`

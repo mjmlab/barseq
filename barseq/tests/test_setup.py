@@ -27,7 +27,7 @@ def temp_dir(tmp_path_factory: Path, request):
     # Create temporary directory
     tmpdir = tmp_path_factory.mktemp("test")
     # Copy test data into temp directory
-    shutil.copytree("tests/data", tmpdir.joinpath("data"))
+    shutil.copytree("barseq/tests/data", tmpdir.joinpath("data"))
     def get_tmp_path(filename=[]) -> str:
         """
         Getter for file path in tmpdir

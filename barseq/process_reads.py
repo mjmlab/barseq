@@ -58,3 +58,7 @@ def count_barcodes(seq_file, barcode_dict) -> None:
     logger.info(f"Reads without barcode match: {barcode_dict['_other']['count']} for {seq_file}")
 
     return
+
+
+if __name__ == '__main__':
+    pass

@@ -21,7 +21,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M",
 )
-
 # Get logger
 logger = logging.getLogger("barseq")
 
@@ -74,10 +73,13 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     |   Gene 1   | ATCGCGT |     500     |     10      | ... |
 
     """
-    # Get gene index
-    genes = {barcode_dict[bar]["gene"]: bar for bar in barcode_dict}
-    df = pd.DataFrame.from_dict(genes, orient="index", columns=["Barcode"])
-
+    # Grab barcode and gene index
+    index = list(sample_dict.values())[0]
+    s_genes = pd.Series(data=[d["gene"] for d in index.values()], name="Gene")
+    s_barcodes = pd.Series(data=[k for k in index.keys()], name="Barcodes")
+    # Join them
+    df = pd.concat([s_genes, s_barcodes], axis=1).set_index("Gene")
+    # Grab counts from sample and add to df
     for sample in sample_dict:
         counts = {count_dict["gene"]: count_dict["count"] for count_dict in sample_dict[sample].values()}
         sample_df = pd.DataFrame.from_dict(counts, orient="index", columns=[sample])
@@ -87,8 +89,7 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     return
 
 
-
-def format_filename(name:str) -> str:
+def format_filename(name: str) -> str:
     """
     Converts input into a valid name for file and recording results
 
@@ -118,3 +119,6 @@ def make_barseq_directories(runner) -> None:
     runner.path = results_folder
     return
 
+
+if __name__ == '__main__':
+    pass

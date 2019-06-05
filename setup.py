@@ -32,6 +32,7 @@ def main():
         version=__version__,
         description="None",
         long_description_type="text/markdown",
+        long_description=_long_description,
         url="None",
         author="Emanuel Burgos",
         author_email="eburgos@wisc.edu",
