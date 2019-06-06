@@ -25,11 +25,11 @@ logging.basicConfig(
 logger = logging.getLogger("barseq")
 
 
-def read_barcodes(barcodes_file: str) -> dict:
+def read_barcodes(barcodes_file: Path) -> dict:
     """
     Read in barcodes from file
 
-    :param barcodes_file: csv file with barcodes and gene name
+    :param barcodes_file: path to csv file with barcodes and gene name
     :return barcode_dict:
 
     barcode_dict = {

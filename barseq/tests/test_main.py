@@ -38,3 +38,14 @@ def test_barseq(temp_dir):
     assert filecmp.cmp(expected_output.joinpath("barcode_counts_table.csv"),
                        test_output.joinpath("barcode_counts_table.csv"))
 
+    # Check log files
+    cmp_log_file = expected_output.joinpath("log.txt")
+    test_log_file = test_output.joinpath("log.txt")
+    with open(cmp_log_file) as cmp_log, open(test_log_file) as test_log:
+        for cmp, test in zip(cmp_log, test_log):
+            test_line = "-".join(test.strip().split("-")[3:])
+            cmp_line = "-".join(cmp.strip().split("-")[3:])
+
+            assert cmp_line == test_line
+
+

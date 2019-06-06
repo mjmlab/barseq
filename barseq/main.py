@@ -9,6 +9,7 @@ import os
 from copy import deepcopy
 import sys
 import logging
+from pathlib import Path
 
 # Module import
 from .utils import write_output, read_barcodes, format_filename, make_barseq_directories
@@ -39,8 +40,8 @@ class Run:
     """ Class that stores settings for barseq processes. """
     def __init__(self, args):
         self.experiment = args.experiment
-        self.sequences = args.input
-        self.barcodes = args.barcodes
+        self.sequences = Path(args.input)
+        self.barcodes = Path(args.barcodes)
         # self.barseq_sample_collection = list()
         self.sample_dict = dict()
         self.path = f"results/{self.experiment}/"
@@ -74,7 +75,7 @@ def main(args) -> None:
     logger.addHandler(fh)
     logger.info("***** Starting barseq *****")
     # Read in barcode
-    logger.info(f"Reading in barcodes from {runner.barcodes}")
+    logger.info(f"Reading in barcodes from {runner.barcodes.name}")
     barcodes = read_barcodes(runner.barcodes)
     # Process each sequencing file
     for seq_file in os.listdir(runner.sequences):
