@@ -7,11 +7,10 @@ python:
 install:
   - echo "Installing python 3.7"
   - sudo apt-get update
-  - wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - conda create --name test-barseq python=3.7
-  - conda activate test-barseq
+  - sudo apt-get install python3.7
+  - tar -xf Python-3.7.3.tar.xz
+  - virtualenv -p python3.7 test-barseq
+  - source ~/venv/test-barseq/bin/activate
   - pip install -r requirements.txt
 script:
   - make test
