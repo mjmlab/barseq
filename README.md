@@ -66,12 +66,12 @@ AATATTCAGATGGGACGT,gene11
 - <experiment>_results.csv: barcode counts found in each sequence file.
 
 
-| Gene |       Barcode      | Sample 1 | Sample 2 | Sample 3 | ... |
-| ---- | ------------------ | -------- | -------- | -------- | --- |
-| gene1| ATGAAGACTGTTGCCGTA |    500   |    5     |     7    | ... |
-| gene2| CACGACGCCCTCCGCGGA |     12   |   13     |    19    | ... |
-| gene3| ACTATTACGCAAAATAAT |     13   |   11     |    10    | ... |
-|_other|       _other       |     28   |   40     |    29    | ... |
+| Gene |       Barcode        | Sample 1 | Sample 2 | Sample 3 | ... |
+| ---- | -------------------- | --------:| --------:| --------:| --- |
+| gene1| `ATGAAGACTGTTGCCGTA` |    500   |    5     |     7    | ... |
+| gene2| `CACGACGCCCTCCGCGGA` |     12   |   13     |    19    | ... |
+| gene3| `ACTATTACGCAAAATAAT` |     13   |   11     |    10    | ... |
+|_other|        _other        |     28   |   40     |    29    | ... |
 
 
 
