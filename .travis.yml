@@ -7,7 +7,7 @@ python:
 install:
   - echo "Installing python 3.7"
   - sudo apt-get update
-  - sudo apt-get install python3.7
+  - wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tar.xz
   - tar -xf Python-3.7.3.tar.xz
   - virtualenv -p python3.7 test-barseq
   - source ~/venv/test-barseq/bin/activate
