@@ -8,7 +8,7 @@ install:
   - echo "Installing python 3.7"
   - sudo apt-get update
   - wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - bash -b miniconda.sh -p $HOME/miniconda
+  - bash miniconda.sh -b -p $HOME/miniconda
   - export PATH="$HOME/miniconda/bin:$PATH"
   - conda create --name test-barseq python=3.7
   - conda activate test-barseq
