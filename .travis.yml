@@ -7,7 +7,8 @@ python:
 install:
   - sudo apt-get update
   - curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-  - bash Anaconda3-2019.03-Linux-x86_64.sh
+  - bash -b Anaconda3-2019.03-Linux-x86_64.sh -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
   - conda create --name test-barseq python=3.7
   - source activate test-barseq
   - pip install -r requirements.txt
