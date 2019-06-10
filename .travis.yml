@@ -7,7 +7,7 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  - pwd
+  - make install
   - make test
 after_success:
   - codecov
