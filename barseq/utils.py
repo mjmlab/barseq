@@ -79,6 +79,8 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     s_barcodes = pd.Series(data=[k for k in index.keys()], name="Barcodes")
     # Join them
     df = pd.concat([s_genes, s_barcodes], axis=1).set_index("Gene")
+    # Sort samples
+    sample_dict = dict(sorted(sample_dict.items()))
     # Grab counts from sample and add to df
     for sample in sample_dict:
         counts = {count_dict["gene"]: count_dict["count"] for count_dict in sample_dict[sample].values()}
