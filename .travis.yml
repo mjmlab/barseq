@@ -2,8 +2,7 @@ language: python
 sudo: required
 python:
   - 3.6
-  - "3.7"
-# Install python 3.7, Travis does not have it
+# TODO: Install python 3.7, Travis does not have it
 install:
   - pip install -r requirements.txt
 script:
