@@ -57,7 +57,7 @@ def count_barcodes(seq_file, barcode_dict) -> None:
 
     logger.info(f"For {seq_file}, {matched_reads} of "
                 f"{n_reads} ({round((matched_reads/n_reads) * 100, 2)}%) matched known barcodes.")
-    logger.info(f"Reads without barcode match: {_other_reads} ({round((_other_reads/n_reads)*100, 2)})% for {seq_file}")
+    logger.info(f"Reads without barcode match: {_other_reads} ({round((_other_reads/n_reads)*100, 2)}%) for {seq_file}")
     return
 
 
