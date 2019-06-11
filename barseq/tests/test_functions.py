@@ -14,7 +14,7 @@ __email__ = "eburgos@wisc.edu"
 
 
 def test_read_tab_delimited_barcodes():
-    barcode_file = "BarSeq/tests/data/input/samples.csv"
+    barcode_file = "barseq/tests/data/input/samples.csv"
     output_d = {'ATGAAGACTGTTGCCGTA': {'count': 0, 'gene': 'bar1'},
                 'CACGACGCCCTCCGCGGA': {'count': 0, 'gene': 'bar2'},
                 'ACTATTACGCAAAATAAT': {'count': 0, 'gene': 'bar3'},

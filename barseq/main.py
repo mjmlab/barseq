@@ -78,7 +78,8 @@ def main(args) -> None:
     logger.info(f"Reading in barcodes from {runner.barcodes.name}")
     barcodes = read_barcodes(runner.barcodes)
     # Process each sequencing file
-    for seq_file in os.listdir(runner.sequences):
+    seq_files_list = sorted(os.listdir(runner.sequences))
+    for seq_file in seq_files_list:
         if not seq_file.endswith(".DS_Store"):
             sample = format_filename(seq_file)
             logger.info(f"Counting Barcodes in {sample}")
