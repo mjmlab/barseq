@@ -9,8 +9,7 @@ __email__ = "eburgos@wisc.edu"
 
 try:
     if sys.version_info.major < 3:
-        # TODO: Add logger message here
-        print("barseq needs Python version of 3 or higher.")
+        print("Barseq needs Python version of 3 or higher.")
         sys.exit(1)
 except Exception:
     print("Could not figure out your python version.")
@@ -33,6 +32,7 @@ def main():
         version=__version__,
         description="None",
         long_description_type="text/markdown",
+        long_description=_long_description,
         url="None",
         author="Emanuel Burgos",
         author_email="eburgos@wisc.edu",

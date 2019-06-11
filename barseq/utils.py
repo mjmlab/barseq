@@ -7,10 +7,10 @@ Script that provides helper functions for package.
 
 import csv
 import pandas as pd
-import datetime
 import re
 import logging
-
+import sys
+from pathlib import Path
 
 __author__ = "Emanuel Burgos"
 __email__ = "eburgos@wisc.edu"
@@ -21,17 +21,15 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(module)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M",
 )
-
 # Get logger
 logger = logging.getLogger("barseq")
 
 
-def read_barcodes(barcodes_file: str):
-    # TODO: Change docstring
+def read_barcodes(barcodes_file: Path) -> dict:
     """
     Read in barcodes from file
 
-    :param barcodes_file: csv file with barcodes and gene name
+    :param barcodes_file: path to csv file with barcodes and gene name
     :return barcode_dict:
 
     barcode_dict = {
@@ -60,7 +58,7 @@ def read_barcodes(barcodes_file: str):
     return barcode_dict
 
 
-def write_output(sample_dict: dict, barcode_dict: dict, output_name:str) -> None:
+def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
     """
     Convert results file into a pandas dataframe with following
     structure.
@@ -70,28 +68,28 @@ def write_output(sample_dict: dict, barcode_dict: dict, output_name:str) -> None
     :param output_name: Name for output file
     :return None
 
-    | Gene Index | Replicate 1 | Replicate 2 | ... |
-    |------------|-------------|-------------|-----|
-    |   Gene 1   |     500     |     10      | ... |
+    |    Gene    | Barcode |   Sample 1  |  Sample 2   | ... |
+    |------------|---------|-------------|-------------|-----|
+    |   Gene 1   | ATCGCGT |     500     |     10      | ... |
 
     """
-    # Get current date
-    date = datetime.datetime.now().date()
-    # Get gene index
-    genes = {barcode_dict[bar]["gene"]:bar for bar in barcode_dict}
-    df = pd.DataFrame.from_dict(genes, orient="index", columns=["Barcode"])
-
+    # Grab barcode and gene index
+    index = list(sample_dict.values())[0]
+    s_genes = pd.Series(data=[d["gene"] for d in index.values()], name="Gene")
+    s_barcodes = pd.Series(data=[k for k in index.keys()], name="Barcodes")
+    # Join them
+    df = pd.concat([s_genes, s_barcodes], axis=1).set_index("Gene")
+    # Grab counts from sample and add to df
     for sample in sample_dict:
         counts = {count_dict["gene"]: count_dict["count"] for count_dict in sample_dict[sample].values()}
         sample_df = pd.DataFrame.from_dict(counts, orient="index", columns=[sample])
         df = pd.concat([df, sample_df], axis=1)
     # Write to output
-    df.to_csv(f"{date}_{output_name}.csv")
+    df.to_csv(f"{runner.path}/barcode_counts_table.csv")
     return
 
 
-
-def format_filename(name:str):
+def format_filename(name: str) -> str:
     """
     Converts input into a valid name for file and recording results
 
@@ -104,9 +102,23 @@ def format_filename(name:str):
     return re.sub(r"(?u)[^-\w]", "", name.strip().replace(" ", "_"))
 
 
-def sequence_distance(target:str, matcher:str):
-    distance = sum( c1 != c2 for (c1,c2) in zip(target, matcher))
+def make_barseq_directories(runner) -> None:
+    """
+    Helper function for creating experiment directories that are
+    used in barseq run.
 
-    return distance
+    :param runner: Run object given in main
+    :return:
+    """
+    error_message =f"Barseq Error: {runner.experiment} directory already exists. Delete or rename {runner.experiment}, or provide new name for barseq run."
+    results_folder = Path("results", runner.experiment)
+    if results_folder.is_dir():
+        logger.error(error_message)
+        sys.exit(1)
+    results_folder.mkdir(parents=True)
+    runner.path = results_folder
+    return
 
 
+if __name__ == '__main__':
+    pass
