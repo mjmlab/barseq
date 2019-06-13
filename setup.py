@@ -14,7 +14,7 @@ try:
 except Exception:
     print("Could not figure out your python version.")
 
-# Long description
+# Long description from README
 with open("README.md", "r") as f:
     _long_description = f.read()
 
@@ -22,26 +22,33 @@ with open("README.md", "r") as f:
 with open("VERSION", "r") as f:
     __version__ = f.readline().split()[-1]
 
-# Required dependencies
-__dependencies__ = [d.strip("\n") for d in open("requirements.txt", "r")]
+# Required packages
+__requirements__ = [d.strip("\n") for d in open("requirements.txt", "r")]
 
 
 def main():
     setup(
         name="barseq",
         version=__version__,
-        description="None",
+        description="Analysis of barseq data.",
         long_description_type="text/markdown",
         long_description=_long_description,
-        url="None",
+        url="https://github.com/mjmlab/barseq",
         author="Emanuel Burgos",
         author_email="eburgos@wisc.edu",
         license="BSD",
         scripts=glob("bin/*"),
         tests_require=["pytest"],
-        installation_require=None,
+        install_require=__requirements__,
         packages=find_packages(),
-        classifiers=[],
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+            "Environment :: MacOS X",
+            "Intended Audience :: Science/Research",
+            "License :: OSI Approved :: BSD License",
+            "Programming Language :: Python :: 3",
+            "Topic :: Scientific/Engineering :: Bio-Informatics",
+        ],
         zip_safe=False)
 
 
