@@ -12,7 +12,7 @@ try:
         print("Barseq needs Python version of 3 or higher.")
         sys.exit(1)
 except Exception:
-    print("Could not figure out your python version.")
+    print("Barseq could not determine python version")
 
 # Long description from README
 with open("README.md", "r") as f:
