@@ -8,7 +8,8 @@ Test module for testing main barseq pipeline
 import subprocess
 import filecmp
 import os
-import pathlib
+
+import pandas as pd
 
 # Module import
 from .test_setup import temp_dir
@@ -35,8 +36,10 @@ def test_barseq(temp_dir):
                      "-e", experiment])
     # Check output
     assert filecmp.dircmp(expected_output, test_output)
-    assert filecmp.cmp(expected_output.joinpath("barcode_counts_table.csv"),
-                       test_output.joinpath("barcode_counts_table.csv"))
+    assert filecmp.cmp(expected_output.joinpath("barcode_counts_table.txt"),
+                       test_output.joinpath("barcode_counts_table.txt"))
+
+
 
     # Check log files
     cmp_log_file = expected_output.joinpath("log.txt")

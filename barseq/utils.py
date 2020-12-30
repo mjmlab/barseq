@@ -58,7 +58,7 @@ def read_barcodes(barcodes_file: Path) -> dict:
     return barcode_dict
 
 
-def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
+def write_output(sample_dict: dict, runner) -> None:
     """
     Convert results file into a pandas dataframe with following
     structure.
@@ -87,7 +87,7 @@ def write_output(sample_dict: dict, barcode_dict: dict, runner) -> None:
         sample_df = pd.DataFrame.from_dict(counts, orient="index", columns=[sample])
         df = pd.concat([df, sample_df], axis=1)
     # Write to output
-    df.to_csv(f"{runner.path}/barcode_counts_table.csv")
+    df.to_csv(f"{runner.path}/barcode_counts_table.txt", sep='\t')
     return
 
 

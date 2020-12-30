@@ -1,13 +1,14 @@
-2019-06-11 10:35 - INFO - main - ***** Starting barseq *****
-2019-06-11 10:35 - INFO - main - Reading in barcodes from samples.csv
-2019-06-11 10:35 - INFO - main - Counting Barcodes in data1
-2019-06-11 10:35 - INFO - process_reads - For data1.fastq, 86 of 126 (68.25%) matched known barcodes.
-2019-06-11 10:35 - INFO - process_reads - Reads without barcode match: 40 (31.75%) for data1.fastq
-2019-06-11 10:35 - INFO - main - Counting Barcodes in data2
-2019-06-11 10:35 - INFO - process_reads - For data2.fastq, 97 of 126 (76.98%) matched known barcodes.
-2019-06-11 10:35 - INFO - process_reads - Reads without barcode match: 29 (23.02%) for data2.fastq
-2019-06-11 10:35 - INFO - main - Counting Barcodes in data3
-2019-06-11 10:35 - INFO - process_reads - For data3.fastq, 98 of 126 (77.78%) matched known barcodes.
-2019-06-11 10:35 - INFO - process_reads - Reads without barcode match: 28 (22.22%) for data3.fastq
-2019-06-11 10:35 - INFO - main - Writing results to results/barseq_pytest
-2019-06-11 10:35 - INFO - main - ***** barseq is complete! *****
+2020-12-30 16:51 - INFO - main - ***** Starting barseq *****
+2020-12-30 16:51 - INFO - main - Reading in barcodes from samples.csv
+2020-12-30 16:51 - INFO - main - Counting Barcodes in data1
+2020-12-30 16:51 - INFO - process_reads - For data1.fastq, 86 of 126 (68.25%) matched known barcodes.
+2020-12-30 16:51 - INFO - process_reads - Reads without barcode match: 40 (31.75%) for data1.fastq
+2020-12-30 16:51 - INFO - main - Counting Barcodes in data2
+2020-12-30 16:51 - INFO - process_reads - For data2.fastq, 97 of 126 (76.98%) matched known barcodes.
+2020-12-30 16:51 - INFO - process_reads - Reads without barcode match: 29 (23.02%) for data2.fastq
+2020-12-30 16:51 - INFO - main - Counting Barcodes in data3
+2020-12-30 16:51 - INFO - process_reads - For data3.fastq, 98 of 126 (77.78%) matched known barcodes.
+2020-12-30 16:51 - INFO - process_reads - Reads without barcode match: 28 (22.22%) for data3.fastq
+2020-12-30 16:51 - WARNING - main - Skipping data4_R2.fastq because program does not handle reversed reads.
+2020-12-30 16:51 - INFO - main - Writing results to results/barseq_pytest
+2020-12-30 16:51 - INFO - main - ***** barseq is complete! *****

@@ -80,26 +80,27 @@ def main(args) -> None:
     # Process each sequencing file
     seq_files_list = sorted(os.listdir(runner.sequences))
     for seq_file in seq_files_list:
-        if not seq_file.endswith(".DS_Store"):
-            sample = format_filename(seq_file)
-            logger.info(f"Counting Barcodes in {sample}")
-            runner.sample_dict[sample] = deepcopy(barcodes)
-            # Change cwd
-            with Cd(runner.sequences):
-                count_barcodes(seq_file, runner.sample_dict[sample])
-
-    # TODO: Add basic analysis
+        # Split seq_file name into its suffixes
+        if 'R2' in seq_file:
+            logger.warning(f'Skipping {seq_file} because program does not handle reversed reads.')
+        else:
+            if seq_file.endswith(".fastq") or seq_file.endswith('fastq.gz'):
+                sample = format_filename(seq_file)
+                logger.info(f"Counting Barcodes in {sample}")
+                runner.sample_dict[sample] = deepcopy(barcodes)
+                # Change cwd
+                with Cd(runner.sequences):
+                    count_barcodes(seq_file, runner.sample_dict[sample])
 
     # Write to output
     logger.info(f"Writing results to {runner.path}")
-    write_output(runner.sample_dict, barcodes, runner)
+    write_output(runner.sample_dict, runner)
 
     # Confirm completion of barseq
     logger.info("***** barseq is complete! *****")
 
 
 if __name__ == "__main__":
-
     """ # -------- START HERE --------  # """
     args = sys.argv[1:]
     main(args)

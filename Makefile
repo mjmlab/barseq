@@ -1,4 +1,4 @@
 install:
-	python3 setup.py -q install
+	pip install -e ./
 test:
-	python3 -m pytest
+	pytest -s
