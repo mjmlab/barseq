@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mjmlab/barseq.svg?branch=master)
+![Build Status](https://travis-ci.org/mjmlab/barseq.svg?branch=master)
 ![Python 3.6](https://img.shields.io/badge/python-3.7-blue.svg)
 
 # barseq 
