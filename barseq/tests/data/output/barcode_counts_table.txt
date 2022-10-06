@@ -1,4 +1,4 @@
-Gene	Barcodes	data1	data2	data3
+Gene	Barcodes	sample1	sample2	sample3
 bar1	ATGAAGACTGTTGCCGTA	15	7	16
 bar2	CACGACGCCCTCCGCGGA	13	19	12
 bar3	ACTATTACGCAAAATAAT	11	10	13

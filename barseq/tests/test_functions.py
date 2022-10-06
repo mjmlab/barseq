@@ -5,6 +5,7 @@ Test module for testing functions in barseq.
 
 """
 
+from pathlib import Path
 # Module import
 from barseq.utils import read_barcodes, format_filename
 from barseq.main import Run
@@ -33,9 +34,9 @@ def test_read_tab_delimited_barcodes():
 
 
 def test_format_filename():
-    assert "weird_file-name_" == format_filename("weird:_file-%$name_='][")
-    assert "weird_file-name_" == format_filename("      weird:_file-%$name_='][")
-    assert "weird_file-name_" == format_filename("weird:_file-%$name_='][     ")
+    assert "weird_file-name_" == format_filename(Path("weird:_file-%$name_=']["))
+    assert "weird_file-name_" == format_filename(Path("      weird:_file-%$name_=']["))
+    assert "weird_file-name_" == format_filename(Path("weird:_file-%$name_='][     "))
 
 
 # def test_Run_class():
