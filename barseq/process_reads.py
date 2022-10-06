@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+3  # !/usr/bin/env python3
 
 """
 Count barcode frequency in fastq/fasta files given by user.
@@ -8,7 +8,9 @@ Count barcode frequency in fastq/fasta files given by user.
 import screed
 import logging
 import regex as re
-import sys
+
+# Module imports
+from .utils import compile_regex_patterns
 
 __author__ = "Emanuel Burgos"
 __email__ = "eburgos@wisc.edu"
@@ -17,27 +19,24 @@ __email__ = "eburgos@wisc.edu"
 logger = logging.getLogger("barseq")
 
 
-def count_barcodes(seq_file, barcode_dict) -> None:
+def count_barcodes(seq_file, barcode_dict, runner) -> None:
     """
     Count barcode frequency in sequence file.
     Returns a DataFrame object
 
     :param seq_file: file with reads
+    :param runner: Run object
     :param barcode_dict: barcode dictionary of sample
     :return:
     """
     _other_reads = list()
-    # Compile regex patterns
-    flank_regex = re.compile("(GCTCATGCACTTGATTCC){e<=1}([ATGC]{18})(GACTTGACCTGGATGTCT){e<=1}")
-    barcode_regex = dict()
-    for b in barcode_dict:
-        barcode_regex[b] = re.compile("(%s){e<=1}" % b)
+    flank_regex, barcode_regex = compile_regex_patterns(barcode_dict, runner)
     # Open sequence file
     with screed.open(seq_file) as reads:
         n_reads = 0
         for read in reads:
             try:
-                putative_barcode = re.search(flank_regex, read.sequence)[2]
+                putative_barcode = re.search(runner.pattern, read.sequence)[2]
                 for known_barcode in barcode_regex:
                     if re.search(barcode_regex[known_barcode], putative_barcode):
                         barcode_dict[known_barcode]["count"] += 1
@@ -56,9 +55,50 @@ def count_barcodes(seq_file, barcode_dict) -> None:
     _other_reads = barcode_dict['_other']['count']
 
     logger.info(f"For {seq_file}, {matched_reads} of "
-                f"{n_reads} ({round((matched_reads/n_reads) * 100, 2)}%) matched known barcodes.")
-    logger.info(f"Reads without barcode match: {_other_reads} ({round((_other_reads/n_reads)*100, 2)}%) for {seq_file}")
+                f"{n_reads} ({round((matched_reads / n_reads) * 100, 2)}%) matched known barcodes.")
+    logger.info(
+        f"Reads without barcode match: {_other_reads} ({round((_other_reads / n_reads) * 100, 2)}%) for {seq_file}")
     return
+
+
+def count_barcodes_reference_free(seq_file, runner):
+    """
+    Count barcode frequency in sequence file.
+    Returns a DataFrame object
+
+    :param seq_file: file with reads
+    :param runner: Run object
+    :return barcode_counts:
+    """
+    # Get regex pattern
+    # flank_regex = compile_regex_patterns(runner=runner)
+    # Search for barcodes in sequence file
+    # Barcode count
+    barcode_counts = dict()
+    barcode_counts["no_barcode_found"] = 0
+    n_reads = 0
+    with screed.open(seq_file) as reads:
+        for read in reads:
+            match = re.search(runner.pattern, read.sequence)
+            if match:
+                # Add to dictionary and count
+                barcode = match.groups(0)[1]
+                if barcode not in barcode_counts.keys():
+                    barcode_counts[barcode] = 0
+                barcode_counts[barcode] += 1
+            else:
+                barcode_counts["no_barcode_found"] += 1
+            n_reads += 1
+
+    # Calculate matched reads
+    good_barcode_count = sum([barcode_counts[s] for s in barcode_counts if s != "no_barcode_found"])
+    _other_reads = barcode_counts['no_barcode_found']
+
+    logger.info(f"For {seq_file}, {good_barcode_count} of "
+                f"{n_reads} ({round((good_barcode_count / n_reads) * 100, 2)}%) are good barcodes.")
+    logger.info(
+        f"Reads without barcode match: {_other_reads} ({round((_other_reads / n_reads) * 100, 2)}%) for {seq_file}")
+    return barcode_counts, good_barcode_count
 
 
 if __name__ == '__main__':

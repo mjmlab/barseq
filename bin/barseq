@@ -8,6 +8,7 @@ Bin executable fro command line usage
 import sys
 import argparse
 import logging
+from pathlib import Path
 
 # Module import
 from barseq.main import main
@@ -28,9 +29,23 @@ def parse_args(args):
 
     parser.add_argument("-i", "--input", help="Directory where fastq/fastq.gz files are located.")
 
-    parser.add_argument("-b", "--barcodes", help="CSV file with barcodes for genes")
+    parser.add_argument("-b", "--barcodes", help="CSV file with barcodes for genes", default='')
 
-    parser.add_argument("-e", "--experiment", help="Name for experiment")
+    parser.add_argument("-e", "--experiment", help="Name for experiment", default='barseq-run')
+
+    parser.add_argument('-f', '--force', help="If results/<experiment> exists, overwrite it", action="store_true", default=False)
+
+    parser.add_argument("-s", "--samples", help='', default=None)
+
+    parser.add_argument("-o", "--output", help='Path to store output files', default=Path('./'))
+
+    parser.add_argument("--reference-free", help="Infer barcodes sequences from reads. "
+                                                 "If True, provide a table for sample names.", action="store_true", default=False)
+
+    parser.add_argument("--min-count", help="Minimum barcode counts required to be considered", default=20)
+    parser.add_argument('-fr', '--flanking-right', default='GACTTGACCTGGATGTCT', help='')
+    parser.add_argument('-fl', '--flanking-left', default='GCTCATGCACTTGATTCC', help='')
+    parser.add_argument('--barcode-length', default=18, help='Length of barcode sequence')
 
     # Process arguments given
     args = parser.parse_args(args)

@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/eburgoswisc/barseq.svg?branch=master)](https://travis-ci.com/eburgoswisc/barseq)
-![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
+![Build Status](https://travis-ci.org/mjmlab/barseq.svg?branch=master)
+![Python 3.6](https://img.shields.io/badge/python-3.7-blue.svg)
 
 # barseq 
 
