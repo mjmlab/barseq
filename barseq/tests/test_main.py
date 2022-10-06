@@ -22,7 +22,7 @@ __email__ = "eburgos@wisc.edu"
 def test_barseq(temp_dir):
     # Create testing paths
     input_sequence = temp_dir(["data", "input", "sequences"])
-    input_barcodes = temp_dir(["data", "input", "samples.csv"])
+    input_barcodes = temp_dir(["data", "input", "barcodes.csv"])
     expected_output = temp_dir(["data", "output"])
     test_output = temp_dir(["results", "barseq_pytest"])
     experiment = "barseq_pytest"
@@ -30,6 +30,7 @@ def test_barseq(temp_dir):
     # Move into temp_dir
     os.chdir(temp_dir())
     # Call main with test data
+    # TODO: Maybe instead of calling barseq from installation, use local script path
     subprocess.call(["barseq",
                      "-i", input_sequence,
                      "-b", input_barcodes,
